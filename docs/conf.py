@@ -48,6 +48,7 @@ extensions = [
     "sphinx_design",
     "sphinxcontrib.phpdomain",
     "sphinx.ext.extlinks",
+    "sphinxcontrib.datatemplates",
 ]
 
 # MyST (Markdown) settings

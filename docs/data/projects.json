@@ -1,0 +1,21 @@
+[
+  {
+    "title": "Webrick – PHP Router",
+    "description": "Lightweight router with groups/domains, signed & temporary URLs, pre/post middleware, compression, cache validators, throttling, and route caching.",
+    "repo": "https://github.com/infocyph/Webrick",
+    "docs": "/projects/router/en/latest/"
+  },
+  {
+    "title": "InterMix",
+    "description": "Developer-first PHP toolkit: PSR-11 DI container, macros/mixins, memoization, and cache helpers.",
+    "repo": "https://github.com/infocyph/InterMix",
+    "docs": "/projects/intermix/en/latest/"
+  },
+  {
+    "title": "UID",
+    "description": "UUID, ULID, Snowflake, Sonyflake, NanoID, Cuid2 — a consistent, fast PHP API.",
+    "repo": "https://github.com/infocyph/UID",
+    "docs": "/projects/uid/en/latest/"
+  }
+  // add the rest…
+]

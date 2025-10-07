@@ -1,0 +1,23 @@
+.. grid:: 1 1 2 3
+   :gutter: 2
+
+{% for p in data %}
+   .. grid-item-card:: {{ p.title }}
+      :shadow: md
+      :class-card: sd-card-hover
+
+      {{ p.description }}
+
+      .. button-link:: {{ p.repo }}
+         :color: primary
+         :outline:
+         :expand:
+
+         GitHub
+
+      .. button-link:: {{ p.docs }}
+         :color: secondary
+         :outline:
+
+         Docs
+{% endfor %}
