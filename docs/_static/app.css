@@ -139,3 +139,4 @@ body {
     .hero { padding: 3rem 1rem 5rem; }
     .doc-grid { grid-template-columns: 1fr; }
 }
+div.footer { display: none; }
