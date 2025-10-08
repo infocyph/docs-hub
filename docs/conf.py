@@ -140,6 +140,7 @@ html_context = {
     "github_repo": "docs-hub",
     "github_version": version,
     "conf_py_path": "/docs/",
+    "current_year": year_now,
 }
 
 # Substitution for current year
