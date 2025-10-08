@@ -68,7 +68,7 @@ body {
 .search-input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
 
 /* Docs Section */
-.docs-section { padding: 4rem 1rem 6rem; }
+.docs-section { padding: 2rem 1rem 2rem; }
 .section-header { text-align: center; margin-bottom: 3rem; animation: fadeIn .8s ease-out; }
 .section-header h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; }
 .section-header p { font-size: 1.125rem; color: var(--color-muted); max-width: 42rem; margin: 0 auto; }
