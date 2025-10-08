@@ -1,21 +1,25 @@
-.. grid:: 1 1 2 3
+.. grid:: 1
    :gutter: 2
 
 {% for p in data %}
-   .. grid-item-card:: {{ p.title }}
+   .. card::
+      :class-card: sd-hcard sd-card-hover
       :shadow: md
-      :class-card: sd-card-hover
 
-      {{ p.description }}
+      .. container:: sd-hcard-body
 
-      .. container:: sd-card-btnrow
+         **{{ p.title }}**
+
+         {{ p.description }}
+
+      .. container:: sd-hcard-actions
 
          .. button-link:: {{ p.repo }}
             :color: secondary
             :outline:
             :class: sd-btn
 
-            :octicon:`mark-github`
+            :octicon:`mark-github`  GitHub
 
          .. button-link:: {{ p.docs }}
             :color: secondary

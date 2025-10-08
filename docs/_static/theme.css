@@ -1,29 +1,75 @@
-/* --- Cards: two buttons side-by-side --- */
+/* === Horizontal card layout (one card per row) ============================ */
+.sd-hcard {
+    display: flex;
+    gap: 1rem;
+    align-items: stretch;
+    padding: 0; /* inner padding lives on children */
+}
+
+.sd-hcard-body {
+    flex: 1 1 auto;
+    padding: 1rem 1rem 1rem 1.25rem;
+}
+
+.sd-hcard-actions {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;   /* stack buttons vertically */
+    gap: .5rem;
+    padding: 1rem 1.25rem 1rem 0;
+    align-items: flex-start;
+    justify-content: flex-start; /* change to center if you prefer vertical centering */
+}
+
+/* Buttons inside the actions column */
+.sd-hcard-actions a.sd-btn {
+    display: inline-flex;     /* icon + label on one baseline */
+    align-items: center;
+    gap: .35rem;              /* space between icon and label */
+    line-height: 1.1;
+    padding: .45rem .70rem;   /* uniform height */
+    margin: 0;
+}
+.sd-hcard-actions a.sd-btn .octicon {
+    position: relative;
+    top: .02em;               /* subtle vertical nudge */
+}
+
+/* Responsive: stack body over actions on small screens,
+   and show the buttons side-by-side there */
+@media (max-width: 720px) {
+    .sd-hcard {
+        flex-direction: column;
+    }
+    .sd-hcard-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 0 1.25rem 1rem 1.25rem;
+    }
+}
+
+/* === (Legacy) Two-buttons-in-a-row helper – safe to keep ================== */
 .sd-card-btnrow {
     display: flex;
-    gap: .5rem;           /* space between buttons */
+    gap: .5rem;
     align-items: center;
-    flex-wrap: wrap;      /* wrap on narrow screens */
+    flex-wrap: wrap;
 }
-
-/* Normalize both buttons (GitHub + Docs) */
 .sd-card-btnrow a.sd-btn {
-    display: inline-flex;       /* icon + label on one baseline */
+    display: inline-flex;
     align-items: center;
-    gap: .35rem;                /* space between icon and label */
+    gap: .35rem;
     line-height: 1.1;
-    padding: .45rem .70rem;     /* uniform height */
-    margin: 0;                  /* 'gap' handles spacing */
+    padding: .45rem .70rem;
+    margin: 0;
 }
-
-/* Precise icon baseline alignment inside those buttons */
 .sd-card-btnrow a.sd-btn .octicon {
     position: relative;
-    top: .02em;                 /* subtle vertical nudge */
-    margin: 0;                  /* gap handles spacing */
+    top: .02em;
+    margin: 0;
 }
 
-/* Legacy icon-only button style (safe to keep; won't affect the new pair) */
+/* Icon-only style (kept for compatibility if used anywhere) */
 a.sd-btn.sd-btn-icon {
     padding: 0.4rem 0.55rem;
     line-height: 1;
@@ -32,7 +78,7 @@ a.sd-btn.sd-btn-icon {
     justify-content: center;
 }
 
-/* --- Hide RTD flyout (bottom-right) — multiple selectors for safety --- */
+/* === Hide RTD flyout (bottom-right) ====================================== */
 body > readthedocs-flyout { display: none !important; }
 .rst-versions,
 .readthedocs,
@@ -42,13 +88,13 @@ body > readthedocs-flyout { display: none !important; }
     display: none !important;
 }
 
-/* --- Footer: keep only copyright + last-updated; remove Furo credit & "Made with" text --- */
+/* === Footer: keep only copyright + last-updated; remove Furo credit ======= */
 footer .bottom-of-page .left-details > :not(.copyright):not(.last-updated) {
-    display: none !important; /* hides the Furo link and any other extras */
+    display: none !important;
 }
 
-/* Hide the raw "Made with" text node by zeroing container font-size,
-   then restore for the elements we want to show */
+/* Hide the bare "Made with" text node by zeroing the container, then restore
+   size for the elements we keep */
 footer .bottom-of-page .left-details {
     font-size: 0 !important;
 }
@@ -57,7 +103,7 @@ footer .bottom-of-page .left-details > .last-updated {
     font-size: var(--sd-font-size, 0.9rem) !important;
 }
 
-/* Extra guards in case markup changes */
+/* Extra guards if markup changes */
 footer a[title="Furo"],
 footer a[href*="pradyunsg/furo"],
 footer a[href*="pradyunsg.me/furo"] {
