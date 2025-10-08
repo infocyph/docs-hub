@@ -1,10 +1,12 @@
+{# docs/_templates/furo/layout.html
+Only overrides Furo’s layout; EPUB/other builders stay untouched #}
 {% extends "!layout.html" %}
 
 {% block footer %}
 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <p>Copyright © 2021-{{ env.config.html_context.get("current_year", "") }} Infocyph</p>
+            <p>© 2021–{{ current_year|default('') }} Infocyph</p>
         </div>
     </div>
 </footer>
