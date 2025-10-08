@@ -1,6 +1,5 @@
 .footer .content a[href*="furo"] { display: none !important; }
 .footer .content a[href*="sphinx"] { display: none !important; }
-/* Icon-only button sizing & alignment */
 a.sd-btn.sd-btn-icon {
     padding: 0.4rem 0.55rem;
     line-height: 1;
@@ -8,9 +7,5 @@ a.sd-btn.sd-btn-icon {
     align-items: center;
     justify-content: center;
 }
+a.sd-btn .octicon { vertical-align: -0.15em; margin-right: .25rem; }
 
-/* Nudge icons slightly for better baseline alignment */
-a.sd-btn .octicon {
-    vertical-align: -0.15em;
-    margin-right: .25rem;
-}
