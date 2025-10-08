@@ -8,19 +8,17 @@
 
       {{ p.description }}
 
-      .. card-footer::
+      .. button-link:: {{ p.repo }}
+         :outline:
+         :class: sd-btn sd-btn-icon
+         :tooltip: GitHub
 
-         .. button-link:: {{ p.repo }}
-            :outline:
-            :class: sd-btn sd-btn-icon
-            :tooltip: GitHub
+         :octicon:`mark-github`
 
-            :octicon:`mark-github`
+      .. button-link:: {{ p.docs }}
+         :color: secondary
+         :outline:
+         :class: sd-btn
 
-         .. button-link:: {{ p.docs }}
-            :color: secondary
-            :outline:
-            :class: sd-btn
-
-            :octicon:`book`  Docs
+         :octicon:`book`  Docs
 {% endfor %}
