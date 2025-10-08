@@ -8,16 +8,19 @@
 
       {{ p.description }}
 
-      .. button-link:: {{ p.repo }}
-         :color: primary
-         :outline:
-         :expand:
+      .. buttons::
 
-         GitHub
+         .. button-link:: {{ p.repo }}
+            :color: primary
+            :outline:
+            :class: sd-btn sd-btn-icon
 
-      .. button-link:: {{ p.docs }}
-         :color: secondary
-         :outline:
+            :octicon:`mark-github`
 
-         Docs
+         .. button-link:: {{ p.docs }}
+            :color: secondary
+            :outline:
+            :class: sd-btn
+
+            :material:`book;1.1em`  Docs
 {% endfor %}

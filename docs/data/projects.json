@@ -1,62 +1,8 @@
 [
   {
-    "title": "Webrick – PHP Router",
-    "description": "Lightweight router with groups/domains, signed & temporary URLs, pre/post middleware, compression, cache validators, throttling, and route caching.",
-    "repo": "https://github.com/infocyph/Webrick",
-    "docs": "/projects/router/en/latest/"
-  },
-  {
     "title": "InterMix",
-    "description": "Developer-first PHP toolkit: PSR-11 DI container, macros/mixins, memoization, and cache helpers.",
+    "description": "A modern, lightweight PHP toolkit for developers who love class-oriented design, clean architecture, and fast execution. From dependency injection to dynamic macros, every utility is designed to just work — with minimal config and maximum control.",
     "repo": "https://github.com/infocyph/InterMix",
-    "docs": "/projects/intermix/en/latest/"
-  },
-  {
-    "title": "UID",
-    "description": "UUID, ULID, Snowflake, Sonyflake, NanoID, Cuid2 — a consistent, fast PHP API.",
-    "repo": "https://github.com/infocyph/UID",
-    "docs": "/projects/uid/en/latest/"
-  },
-  {
-    "title": "OTP",
-    "description": "All-in-one OTP: stateless generic OTP, TOTP (RFC 6238), HOTP (RFC 4226), OCRA (RFC 6287).",
-    "repo": "https://github.com/infocyph/OTP",
-    "docs": "/projects/otp/en/latest/"
-  },
-  {
-    "title": "ArrayKit",
-    "description": "Expressive array utilities for day-to-day data wrangling in PHP.",
-    "repo": "https://github.com/infocyph/ArrayKit",
-    "docs": "/projects/arraykit/en/latest/"
-  },
-  {
-    "title": "LocalDock",
-    "description": "Docker-based local dev environment for PHP with optional stacks (DB, Redis, ES/Kibana, Mongo, and more).",
-    "repo": "https://github.com/infocyph/LocalDock",
-    "docs": "/projects/localdock/en/latest/"
-  },
-  {
-    "title": "Devtainer",
-    "description": "Container images and scripts tailored for fast PHP dev cycles.",
-    "repo": "https://github.com/infocyph/Devtainer",
-    "docs": "/projects/devtainer/en/latest/"
-  },
-  {
-    "title": "Toolset",
-    "description": "CLI and shell helpers to accelerate routine dev/ops tasks.",
-    "repo": "https://github.com/infocyph/Toolset",
-    "docs": "/projects/toolset/en/latest/"
-  },
-  {
-    "title": "Pathwise",
-    "description": "Lightweight filesystem utilities and helpers for file-centric workflows.",
-    "repo": "https://github.com/infocyph/Pathwise",
-    "docs": "/projects/pathwise/en/latest/"
-  },
-  {
-    "title": "Game-Draw",
-    "description": "Example app for a luck-based draw; demonstrates clean, testable PHP modules.",
-    "repo": "https://github.com/infocyph/Game-Draw",
-    "docs": "/projects/game-draw/en/latest/"
+    "docs": "/projects/intermix/"
   }
 ]
