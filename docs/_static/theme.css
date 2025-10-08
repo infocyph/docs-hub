@@ -1,9 +1,44 @@
+/* --- Cards: buttons side-by-side & icon-only GitHub button --- */
+.sd-card-btnrow {
+    display: flex;
+    gap: .5rem;           /* space between buttons */
+    align-items: center;
+    flex-wrap: wrap;      /* wrap on narrow screens */
+}
+.sd-card-btnrow a.sd-btn {
+    margin: 0;            /* let 'gap' handle spacing */
+}
+
 a.sd-btn.sd-btn-icon {
     padding: 0.4rem 0.55rem;
     line-height: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-right: .35rem; /* space between the two buttons */
+    /* margin-right optional when using .sd-card-btnrow gap; keep if you like extra space */
+    margin-right: .35rem;
 }
-a.sd-btn .octicon { vertical-align: -0.15em; margin-right: .25rem; }
+a.sd-btn .octicon {
+    vertical-align: -0.15em;
+    margin-right: .25rem;
+}
+
+/* --- Hide RTD flyout (bottom-right) — multiple selectors for safety --- */
+body > readthedocs-flyout { display: none !important; }
+.rst-versions,
+.readthedocs,
+.readthedocs-flyout,
+#flyout,
+.__readthedocs__container {
+    display: none !important;
+}
+
+/* --- Hide “Furo” credit link in the footer --- */
+body > div.page > div > div > footer > div.bottom-of-page > div.left-details > a[title="Furo"] {
+    display: none !important;
+}
+/* fallbacks for other Furo/HTML structures */
+footer .footer .content a[title="Furo"],
+footer a[href*="pradyunsg.me/furo"] {
+    display: none !important;
+}
