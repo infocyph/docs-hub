@@ -1,5 +1,7 @@
+/* Base reset */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* ---------------- Light theme (default) ---------------- */
 :root {
     --color-bg: #f8f9fc;
     --color-fg: #1a2332;
@@ -82,7 +84,10 @@ body {
 .doc-card:nth-child(3){animation-delay:.3s} .doc-card:nth-child(4){animation-delay:.4s}
 .doc-card:nth-child(5){animation-delay:.5s} .doc-card:nth-child(6){animation-delay:.6s}
 .doc-card::before { content:''; position:absolute; inset:0;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); opacity:0; transition: opacity .3s ease; }
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); opacity:0; transition: opacity .3s ease;
+    /* decorative tint shouldn’t catch clicks */
+    pointer-events: none;
+}
 .doc-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px var(--color-shadow-glow); }
 .doc-card:hover::before { opacity: .05; }
 .doc-card-image { width: 100%; height: 200px; background: linear-gradient(135deg,#f3f4f6,#e5e7eb); position: relative; overflow: hidden; }
@@ -104,7 +109,7 @@ body {
 }
 .doc-card p { color: var(--color-muted); line-height: 1.6; margin-bottom: 1.5rem; }
 
-.doc-card-links { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0 1.5rem 1.5rem; }
+.doc-card-links { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0 1.5rem 1.5rem; position: relative; z-index: 1; }
 .doc-card-content { max-height: 0; overflow: hidden; transition: max-height .4s ease; background: rgba(79,70,229,.02); border-top: 1px solid transparent; }
 .doc-card.expanded .doc-card-content { max-height: 1000px; border-top-color: var(--color-border); }
 .doc-card-content-inner { padding: 1.5rem; }
@@ -139,6 +144,8 @@ body {
     .hero { padding: 3rem 1rem 5rem; }
     .doc-grid { grid-template-columns: 1fr; }
 }
+
+/* Hide RTD widgets/old footer on RTD host if present */
 div.footer { display: none; }
 .rst-versions,
 .readthedocs,
@@ -146,16 +153,57 @@ div.footer { display: none; }
 .rst-current-version,
 #flyout,
 .__readthedocs__container,
-body > readthedocs-flyout {
-    display: none !important;
-}
-/* The decorative tint shouldn’t catch clicks */
-.doc-card::before {
-    pointer-events: none;
-}
+body > readthedocs-flyout { display: none !important; }
 
-/* Keep the buttons above any backgrounds */
-.doc-card-links {
-    position: relative;
-    z-index: 1;
+/* ---------------- Dark theme (auto via OS) ---------------- */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: #0b1220;
+        --color-fg: #e6eaf3;
+        --color-card: #0f1629;
+        --color-border: #1d2740;
+        --color-primary: #8ab4ff;
+        --color-primary-light: #b3c9ff;
+        --color-accent: #c792ea;
+        --color-muted: #9aa7bd;
+        --color-shadow: rgba(0, 0, 0, 0.5);
+        --color-shadow-glow: rgba(138, 180, 255, 0.2);
+    }
+
+    .hero {
+        background: linear-gradient(180deg, #0d1426 0%, var(--color-bg) 100%);
+    }
+    .hero::before { background: var(--color-primary); opacity: .35; }
+    .hero::after  { background: var(--color-accent);  opacity: .35; }
+
+    .doc-card {
+        border-color: var(--color-border);
+        background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)),
+        var(--color-card);
+    }
+    .doc-card-content {
+        background: rgba(138, 180, 255, 0.03);
+        border-top-color: transparent;
+    }
+    .doc-card.expanded .doc-card-content {
+        border-top-color: var(--color-border);
+    }
+
+    .search-input {
+        background: rgba(255,255,255,0.08);
+        color: var(--color-fg);
+        border-color: rgba(138, 180, 255, 0.25);
+    }
+    .search-input::placeholder { color: var(--color-muted); }
+
+    .btn-outline {
+        border-color: rgba(138, 180, 255, 0.25);
+        color: var(--color-primary);
+        background: transparent;
+    }
+    .btn-outline:hover {
+        background: rgba(138, 180, 255, 0.08);
+    }
+
+    .footer { border-top-color: var(--color-border); }
 }

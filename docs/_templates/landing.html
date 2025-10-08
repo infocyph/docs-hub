@@ -1,5 +1,10 @@
 {% extends "layout.html" %}
-
+{% block extrahead %}
+{{ super() }}
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f8f9fc" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b1220" media="(prefers-color-scheme: dark)">
+{% endblock %}
 {% block sidebar1 %}{% endblock %}
 {% block sidebar2 %}{% endblock %}
 {% block relbar1 %}{% endblock %}
@@ -45,7 +50,6 @@
         </div>
 
         <div class="doc-grid" id="docGrid">
-            {# --- SERVER-SIDE RENDER of cards so they always appear --- #}
             {% for p in projects %}
             <div class="doc-card"
                  id="card-{{ loop.index0 }}"
@@ -107,8 +111,7 @@
                 © {{ current_year }} Infocyph. All rights reserved.
             </p>
             <div class="footer-links">
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
+                <a href="https://infocyph.com/">Home</a>
                 <a href="https://github.com/infocyph" rel="noopener">GitHub</a>
             </div>
         </div>
