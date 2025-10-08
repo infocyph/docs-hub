@@ -1,6 +1,7 @@
 # docs/conf.py — Infocyph Docs Hub (Sphinx 8.x / Python 3.13)
 from __future__ import annotations
-import os, datetime
+import os, datetime, json
+from pathlib import Path
 from subprocess import Popen, PIPE
 
 # --- Project information -----------------------------------------------------
@@ -26,10 +27,10 @@ version = get_version()
 release = version
 language = "en"
 
-# Sphinx 8 root document
+# Sphinx 8 root document (kept for EPUB/PDF builds)
 root_doc = "index"
 
-# --- Syntax highlighting (PHP is handy for cross-project snippets) ----------
+# --- Syntax highlighting (PHP) ----------------------------------------------
 from pygments.lexers.web import PhpLexer
 from sphinx.highlighting import lexers
 highlight_language = "php"
@@ -59,39 +60,40 @@ myst_enable_extensions = [
     "attrs_inline",
     "tasklist",
     "fieldlist",
-    "linkify",    # requires linkify-it-py
+    "linkify",
 ]
 myst_heading_anchors = 3
 
 # Autodoc/Napoleon
-autodoc_default_options = {
-    "members": True,
-    "undoc-members": True,
-    "show-inheritance": True,
-}
+autodoc_default_options = {"members": True, "undoc-members": True, "show-inheritance": True}
 napoleon_google_docstring = True
 napoleon_numpy_docstring  = False
 
-# Intersphinx (add subprojects here as you publish them)
+# Intersphinx
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    # Example: "webrick": ("https://docs.infocyph.dev/projects/router/en/latest/", None),
 }
 
 # extlinks shortcut for PHP manual
-extlinks = {
-    "php": ("https://www.php.net/%s", "%s"),
-}
+extlinks = {"php": ("https://www.php.net/%s", "%s")}
 
 # TODOs visible in HTML
 todo_include_todos = True
+
+# --- Load projects.json for templating --------------------------------------
+_here = Path(__file__).parent
+_projects_json = _here / "data" / "projects.json"
+try:
+    with _projects_json.open("r", encoding="utf-8") as f:
+        projects = json.load(f)
+except Exception:
+    projects = []
 
 # --- HTML output (Furo) ------------------------------------------------------
 html_theme = "furo"
 html_theme_options = {
     "sidebar_hide_name": False,
     "navigation_with_keys": True,
-    # Optional footer icons:
     "footer_icons": [
         {
             "name": "GitHub",
@@ -124,6 +126,11 @@ html_show_sourcelink = True
 html_show_sphinx    = False
 html_last_updated_fmt = "%Y-%m-%d"
 
+# Render a custom HTML homepage from _templates/index.html
+html_additional_pages = {
+    "index": "index.html",
+}
+
 # LaTeX/PDF (optional; RTD handles builder)
 latex_engine = "xelatex"
 latex_elements = {
@@ -141,6 +148,7 @@ html_context = {
     "github_version": version,
     "conf_py_path": "/docs/",
     "current_year": year_now,
+    "projects": projects,   # <-- available to Jinja templates (index.html)
 }
 
 # Substitution for current year

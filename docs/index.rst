@@ -1,5 +1,6 @@
 Infocyph Documentation Hub
 ==========================
 
-.. datatemplate:json:: data/projects.json
-   :template: project-cards.rst.j2
+.. note::
+   This page exists for EPUB/PDF builds only.
+   The HTML homepage is rendered from a custom template (``_templates/index.html``).
