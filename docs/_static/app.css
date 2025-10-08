@@ -107,9 +107,9 @@ body {
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     margin-bottom: .75rem;
 }
-.doc-card p { color: var(--color-muted); line-height: 1.6; margin-bottom: 1.5rem; }
+.doc-card p { color: var(--color-muted); line-height: 1.6; margin-bottom: 0.5rem; }
 
-.doc-card-links { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0 1.5rem 1.5rem; position: relative; z-index: 1; }
+.doc-card-links { display: flex; flex-wrap: wrap; gap: .5rem; padding: 1rem; position: relative; z-index: 1; }
 .doc-card-content { max-height: 0; overflow: hidden; transition: max-height .4s ease; background: rgba(79,70,229,.02); border-top: 1px solid transparent; }
 .doc-card.expanded .doc-card-content { max-height: 1000px; border-top-color: var(--color-border); }
 .doc-card-content-inner { padding: 1.5rem; }

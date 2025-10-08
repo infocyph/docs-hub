@@ -11,7 +11,7 @@
 {% block relbar2 %}{% endblock %}
 
 {% block content %}
-<!-- Keep JS access to projects for enhancements -->
+<!-- Make projects available to JS (progressive enhancement) -->
 <script>window.INF_PROJECTS = {{ projects_json | safe }};</script>
 
 <!-- Hero Section -->
@@ -51,6 +51,11 @@
 
         <div class="doc-grid" id="docGrid">
             {% for p in projects %}
+            {# Derive initials from p.icon or from the first two words of title #}
+            {% set words = (p.title or '').split() %}
+            {% set fallback_initials = ((words[0][:1] if words|length > 0 else '') ~ (words[1][:1] if words|length > 1 else ''))|upper %}
+            {% set initials = (p.icon or fallback_initials)[:2] %}
+
             <div class="doc-card"
                  id="card-{{ loop.index0 }}"
                  data-title="{{ (p.title or '')|e }}"
@@ -58,10 +63,11 @@
                 <div class="doc-card-header">
                     <div class="doc-card-icon-wrapper">
                         <div class="doc-card-icon">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M12 6.253v13M7.5 5C5.754 5 4.168 5.477 3 6.253v13M16.5 5c1.747 0 3.332.477 4.5 1.253v13"/>
-                            </svg>
+                            <!-- JS will convert these initials to an SVG and set as the src -->
+                            <img class="js-initials"
+                                 width="48" height="48"
+                                 alt="{{ p.title }} logo"
+                                 data-initials="{{ initials|e }}">
                         </div>
                         <h3>{{ p.title }}</h3>
                         <svg class="expand-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
@@ -74,7 +80,7 @@
                 <div class="doc-card-content">
                     <div class="doc-card-content-inner">
                         <h4>Details</h4>
-                        <p>{{ p.details }}</p>
+                        {{ (p.details or '') | safe }}
                     </div>
                 </div>
 
@@ -83,7 +89,7 @@
                     <a href="{{ p.docs }}" class="btn btn-primary">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13"></path>
                         </svg>
                         Documentation
                     </a>
