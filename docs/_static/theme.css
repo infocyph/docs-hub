@@ -1,24 +1,35 @@
-/* --- Cards: buttons side-by-side & icon-only GitHub button --- */
+/* --- Cards: two buttons side-by-side --- */
 .sd-card-btnrow {
     display: flex;
     gap: .5rem;           /* space between buttons */
     align-items: center;
     flex-wrap: wrap;      /* wrap on narrow screens */
 }
+
+/* Normalize both buttons (GitHub + Docs) */
 .sd-card-btnrow a.sd-btn {
-    margin: 0;            /* let 'gap' handle spacing */
+    display: inline-flex;       /* icon + label on one baseline */
+    align-items: center;
+    gap: .35rem;                /* space between icon and label */
+    line-height: 1.1;
+    padding: .45rem .70rem;     /* uniform height */
+    margin: 0;                  /* 'gap' handles spacing */
 }
 
+/* Precise icon baseline alignment inside those buttons */
+.sd-card-btnrow a.sd-btn .octicon {
+    position: relative;
+    top: .02em;                 /* subtle vertical nudge */
+    margin: 0;                  /* gap handles spacing */
+}
+
+/* Legacy icon-only button style (safe to keep; won't affect the new pair) */
 a.sd-btn.sd-btn-icon {
     padding: 0.4rem 0.55rem;
     line-height: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-}
-a.sd-btn .octicon {
-    vertical-align: -0.15em;
-    margin-right: .25rem;
 }
 
 /* --- Hide RTD flyout (bottom-right) — multiple selectors for safety --- */
