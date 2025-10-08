@@ -1,86 +1,50 @@
-# docs/conf.py — Infocyph Docs Hub (Sphinx 8.x / Python 3.13)
+# docs/conf.py — Infocyph Docs Hub (single-page, Sphinx basic theme)
 from __future__ import annotations
 import os, datetime, json
 from pathlib import Path
 from subprocess import Popen, PIPE
 
-# --- Project information -----------------------------------------------------
+# --- Project info -----------------------------------------------------------
 project   = "Infocyph Docs Hub"
 author    = "A. B. M. Mahmudul Hasan (Infocyph)"
 year_now  = datetime.date.today().strftime("%Y")
 copyright = f"2021-{year_now}, Infocyph"
 
 def get_version() -> str:
-    """Prefer RTD version label; fall back to current git branch or 'latest'."""
     if os.environ.get("READTHEDOCS") == "True":
         v = os.environ.get("READTHEDOCS_VERSION")
         if v:
             return v
     try:
-        pipe = Popen("git rev-parse --abbrev-ref HEAD", stdout=PIPE, shell=True, universal_newlines=True)
-        v = (pipe.stdout.read() or "").strip()
+        v = Popen(
+            "git rev-parse --abbrev-ref HEAD",
+            stdout=PIPE, shell=True, universal_newlines=True
+        ).stdout.read().strip()
         return v or "latest"
     except Exception:
         return "latest"
 
-version = get_version()
-release = version
+version = release = get_version()
 language = "en"
+root_doc = "index"   # keep for non-HTML builders (future-proof)
 
-# Sphinx 8 root document (kept for EPUB/PDF builds)
-root_doc = "index"
-
-# --- Syntax highlighting (PHP) ----------------------------------------------
-from pygments.lexers.web import PhpLexer
-from sphinx.highlighting import lexers
-highlight_language = "php"
-lexers["php"]             = PhpLexer(startinline=True)
-lexers["php-annotations"] = PhpLexer(startinline=True)
-
-# --- Extensions --------------------------------------------------------------
+# --- Extensions (lean) -----------------------------------------------------
 extensions = [
     "myst_parser",
     "sphinx.ext.autodoc",
-    "sphinx.ext.todo",
     "sphinx.ext.napoleon",
-    "sphinx.ext.autosectionlabel",
     "sphinx.ext.intersphinx",
-    "sphinx_copybutton",
-    "sphinx_design",
-    "sphinxcontrib.phpdomain",
-    "sphinx.ext.extlinks",
-    "sphinxcontrib.datatemplates",
 ]
 
-# MyST (Markdown) settings
 myst_enable_extensions = [
-    "colon_fence",
-    "deflist",
-    "attrs_block",
-    "attrs_inline",
-    "tasklist",
-    "fieldlist",
-    "linkify",
+    "colon_fence", "deflist", "attrs_block", "attrs_inline",
+    "tasklist", "fieldlist", "linkify",
 ]
 myst_heading_anchors = 3
 
-# Autodoc/Napoleon
-autodoc_default_options = {"members": True, "undoc-members": True, "show-inheritance": True}
-napoleon_google_docstring = True
-napoleon_numpy_docstring  = False
+intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 
-# Intersphinx
-intersphinx_mapping = {
-    "python": ("https://docs.python.org/3", None),
-}
-
-# extlinks shortcut for PHP manual
-extlinks = {"php": ("https://www.php.net/%s", "%s")}
-
-# TODOs visible in HTML
-todo_include_todos = True
-
-# --- Load projects.json for templating --------------------------------------
+# --- Load projects.json for landing template --------------------------------
 _here = Path(__file__).parent
 _projects_json = _here / "data" / "projects.json"
 try:
@@ -89,69 +53,28 @@ try:
 except Exception:
     projects = []
 
-# --- HTML output (Furo) ------------------------------------------------------
-html_theme = "furo"
-html_theme_options = {
-    "sidebar_hide_name": False,
-    "navigation_with_keys": True,
-    "footer_icons": [
-        {
-            "name": "GitHub",
-            "url": "https://github.com/infocyph/",
-            "html": """
-                <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                     viewBox="0 0 16 16" height="1.1em" width="1.1em"
-                     xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd"
-                        d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38
-                           0-.19-.01-.82-.01-1.49-2 .37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13
-                           -.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87
-                           2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
-                           0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82
-                           .64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82
-                           .44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95
-                           .29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8
-                           c0-4.42-3.58-8-8-8z"></path>
-                </svg>
-            """,
-            "class": "",
-        }
-    ],
-}
+# --- HTML (basic theme + custom page) ---------------------------------------
+html_theme = "basic"
 templates_path   = ["_templates"]
 html_static_path = ["_static"]
-html_css_files   = ["theme.css"]
+html_css_files   = ["app.css"]            # your CSS
 html_title       = f"Infocyph Docs Hub — {version}"
-html_show_sourcelink = True
-html_show_sphinx    = False
+html_show_sourcelink = False
 html_last_updated_fmt = "%Y-%m-%d"
 
-# Render a custom HTML homepage from _templates/index.html
+# Render our custom landing at /
 html_additional_pages = {
-    "index": "index.html",
+    "index": "landing.html",             # _templates/landing.html
 }
 
-# LaTeX/PDF (optional; RTD handles builder)
-latex_engine = "xelatex"
-latex_elements = {
-    "papersize": "a4paper",
-    "pointsize": "11pt",
-    "preamble": "",
-    "figure_align": "H",
-}
-
-# GitHub context (for RTD “View source” links)
+# Make data available to Jinja
 html_context = {
-    "display_github": False,
-    "github_user": "infocyph",
-    "github_repo": "docs-hub",
-    "github_version": version,
-    "conf_py_path": "/docs/",
     "current_year": year_now,
-    "projects": projects,   # <-- available to Jinja templates (index.html)
+    "projects": projects,
+    "version_label": version,
 }
 
-# Substitution for current year
+# Substitution for current year (used only if you export to other formats)
 rst_prolog = f"""
 .. |current_year| replace:: {year_now}
 """
