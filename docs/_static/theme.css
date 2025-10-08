@@ -1,6 +1,6 @@
 .footer .content a[href*="furo"] { display: none !important; }
 .footer .content a[href*="sphinx"] { display: none !important; }
-/* Icon-only buttons: keep a nice square hit-area */
+/* Icon-only button sizing & alignment */
 a.sd-btn.sd-btn-icon {
     padding: 0.4rem 0.55rem;
     line-height: 1;
@@ -9,8 +9,8 @@ a.sd-btn.sd-btn-icon {
     justify-content: center;
 }
 
-/* Nudge icon and text on the Docs button */
-a.sd-btn .material-icons, a.sd-btn .octicon {
+/* Nudge icons slightly for better baseline alignment */
+a.sd-btn .octicon {
     vertical-align: -0.15em;
     margin-right: .25rem;
 }
