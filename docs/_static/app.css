@@ -29,7 +29,7 @@ body {
 .hero {
     position: relative; overflow: hidden;
     background: linear-gradient(180deg, #fafbff 0%, var(--color-bg) 100%);
-    padding: 5rem 1rem 8rem; text-align: center;
+    padding: 1rem; text-align: center;
 }
 .hero::before, .hero::after {
     content: ''; position: absolute; border-radius: 50%;
@@ -56,7 +56,7 @@ body {
     -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
     margin-bottom: 1.5rem; line-height: 1.1;
 }
-.hero p { font-size: 1.25rem; color: var(--color-muted); max-width: 40rem; margin: 0 auto 2rem; }
+.hero p { font-size: 1.25rem; color: var(--color-muted); margin: 0 auto 2rem; }
 .search-box { max-width: 36rem; margin: 0 auto; position: relative; }
 .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--color-muted); width: 20px; height: 20px; }
 .search-input {
