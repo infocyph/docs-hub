@@ -11,10 +11,13 @@
     grid.addEventListener('click', function (e) {
         const card = e.target.closest('.doc-card');
         if (!card) return;
-        // ignore clicks on links
-        if (e.target.closest('a')) return;
+
+        // If the click is on any link or inside the button row, let it navigate
+        if (e.target.closest('a') || e.target.closest('.doc-card-links')) return;
+
         card.classList.toggle('expanded');
     });
+
 
     // Live search filters the SSR cards using data attributes
     if (search) {

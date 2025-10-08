@@ -140,3 +140,21 @@ body {
     .doc-grid { grid-template-columns: 1fr; }
 }
 div.footer { display: none; }
+.rst-versions,
+.readthedocs,
+.readthedocs-flyout,
+.rst-current-version,
+#flyout,
+.__readthedocs__container {
+    display: none !important;
+}
+/* The decorative tint shouldn’t catch clicks */
+.doc-card::before {
+    pointer-events: none;
+}
+
+/* Keep the buttons above any backgrounds */
+.doc-card-links {
+    position: relative;
+    z-index: 1;
+}
