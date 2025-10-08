@@ -15,8 +15,6 @@ a.sd-btn.sd-btn-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    /* margin-right optional when using .sd-card-btnrow gap; keep if you like extra space */
-    margin-right: .35rem;
 }
 a.sd-btn .octicon {
     vertical-align: -0.15em;
@@ -33,12 +31,24 @@ body > readthedocs-flyout { display: none !important; }
     display: none !important;
 }
 
-/* --- Hide “Furo” credit link in the footer --- */
-body > div.page > div > div > footer > div.bottom-of-page > div.left-details > a[title="Furo"] {
-    display: none !important;
+/* --- Footer: keep only copyright + last-updated; remove Furo credit & "Made with" text --- */
+footer .bottom-of-page .left-details > :not(.copyright):not(.last-updated) {
+    display: none !important; /* hides the Furo link and any other extras */
 }
-/* fallbacks for other Furo/HTML structures */
-footer .footer .content a[title="Furo"],
+
+/* Hide the raw "Made with" text node by zeroing container font-size,
+   then restore for the elements we want to show */
+footer .bottom-of-page .left-details {
+    font-size: 0 !important;
+}
+footer .bottom-of-page .left-details > .copyright,
+footer .bottom-of-page .left-details > .last-updated {
+    font-size: var(--sd-font-size, 0.9rem) !important;
+}
+
+/* Extra guards in case markup changes */
+footer a[title="Furo"],
+footer a[href*="pradyunsg/furo"],
 footer a[href*="pradyunsg.me/furo"] {
     display: none !important;
 }
