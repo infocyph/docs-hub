@@ -4,7 +4,6 @@ import os, datetime, json
 from pathlib import Path
 from subprocess import Popen, PIPE
 
-# --- Project info -----------------------------------------------------------
 project   = "Infocyph Docs Hub"
 author    = "A. B. M. Mahmudul Hasan (Infocyph)"
 year_now  = datetime.date.today().strftime("%Y")
@@ -26,55 +25,50 @@ def get_version() -> str:
 
 version = release = get_version()
 language = "en"
-root_doc = "index"   # keep for non-HTML builders (future-proof)
+root_doc = "index"  # keep a root doc for non-HTML / future builds
 
-# --- Extensions (lean) -----------------------------------------------------
 extensions = [
     "myst_parser",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.intersphinx",
 ]
-
 myst_enable_extensions = [
-    "colon_fence", "deflist", "attrs_block", "attrs_inline",
-    "tasklist", "fieldlist", "linkify",
+    "colon_fence","deflist","attrs_block","attrs_inline","tasklist","fieldlist","linkify",
 ]
 myst_heading_anchors = 3
-
 intersphinx_mapping = {"python": ("https://docs.python.org/3", None)}
 
-# --- Load projects.json for landing template --------------------------------
+# Load projects.json (title/description/repo/docs) into template context
 _here = Path(__file__).parent
-_projects_json = _here / "data" / "projects.json"
+_projects_json_path = _here / "data" / "projects.json"
 try:
-    with _projects_json.open("r", encoding="utf-8") as f:
+    with _projects_json_path.open("r", encoding="utf-8") as f:
         projects = json.load(f)
 except Exception:
     projects = []
 
-# --- HTML (basic theme + custom page) ---------------------------------------
 html_theme = "basic"
 templates_path   = ["_templates"]
 html_static_path = ["_static"]
-html_css_files   = ["app.css"]            # your CSS
+html_css_files   = ["app.css"]
+html_js_files    = ["app.js"]                 # <— add our JS
 html_title       = f"Infocyph Docs Hub — {version}"
 html_show_sourcelink = False
 html_last_updated_fmt = "%Y-%m-%d"
+html_sidebars = {"**": []}                    # hide basic theme sidebars
 
-# Render our custom landing at /
-html_additional_pages = {
-    "index": "landing.html",             # _templates/landing.html
-}
+# Render the custom landing page at /
+html_additional_pages = {"index": "landing.html"}
 
-# Make data available to Jinja
+# Make JSON available to the template (safe string)
 html_context = {
     "current_year": year_now,
     "projects": projects,
+    "projects_json": json.dumps(projects, ensure_ascii=False),
     "version_label": version,
 }
 
-# Substitution for current year (used only if you export to other formats)
 rst_prolog = f"""
 .. |current_year| replace:: {year_now}
 """
