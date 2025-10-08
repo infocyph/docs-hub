@@ -145,7 +145,8 @@ div.footer { display: none; }
 .readthedocs-flyout,
 .rst-current-version,
 #flyout,
-.__readthedocs__container {
+.__readthedocs__container,
+body > readthedocs-flyout {
     display: none !important;
 }
 /* The decorative tint shouldn’t catch clicks */

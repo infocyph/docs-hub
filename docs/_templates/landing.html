@@ -69,16 +69,13 @@
 
                 <div class="doc-card-content">
                     <div class="doc-card-content-inner">
-                        <h4>Quick Links</h4>
-                        <ul>
-                            <li>Read the documentation</li>
-                            {% if p.repo %}<li>Browse the source on GitHub</li>{% endif %}
-                        </ul>
+                        <h4>Details</h4>
+                        <p>{{ p.details }}</p>
                     </div>
                 </div>
 
                 <div class="doc-card-links">
-                    {# IMPORTANT: avoid leading "/" if your hub is under /en/latest/. Use relative or full URLs. #}
+                    {% if p.docs %}
                     <a href="{{ p.docs }}" class="btn btn-primary">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -86,6 +83,7 @@
                         </svg>
                         Documentation
                     </a>
+                    {% endif %}
                     {% if p.repo %}
                     <a href="{{ p.repo }}" class="btn btn-outline">
                         <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
