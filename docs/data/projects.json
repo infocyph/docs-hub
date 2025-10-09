@@ -6,5 +6,13 @@
     "repo": "https://github.com/infocyph/InterMix",
     "docs": "/projects/intermix/",
     "icon": "IM"
+  },
+  {
+    "title": "Webrick",
+    "description": "High-performance PHP router with signed URLs, streaming responses, and production-grade middleware.",
+    "details": "<p><code>Webrick</code> is a fast, modern router for PHP 8.4+, built for real-world backends where latency, safety, and operability matter.</p>\n<ul>\n  <li><strong>Powerful routing</strong> — Named routes, groups, domain scoping, resources, and PHP 8 attributes.</li>\n  <li><strong>Middleware pipeline</strong> — Gateway hardening, method normalization, negotiation, validators (ETag/Last-Modified), CORS/policies, compression, telemetry, throttling.</li>\n  <li><strong>Signed &amp; temporary URLs</strong> — First-class helpers + verifier middleware; proxy/cache friendly.</li>\n  <li><strong>Smart responses</strong> — <code>json()</code>, <code>plaintext()</code>, <code>download()</code>, <code>attachment()</code>, <code>stream()</code> with content negotiation.</li>\n  <li><strong>Route cache</strong> — Sharded (directory) or Fused (single-file) for instant cold starts.</li>\n  <li><strong>Interop</strong> — Optional PSR-7 factory and PSR-15-style adapters.</li>\n</ul>\n<p>Docs include quickstart, recipes (trailing slash, HEAD, ETag, streaming, CORS overrides, throttling), deployments (Nginx/Apache/Containers/K8s/Serverless), and full API reference.</p>",
+    "repo": "https://github.com/infocyph/Webrick",
+    "docs": "/projects/webrick/",
+    "icon": "WR"
   }
 ]
