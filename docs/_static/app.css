@@ -103,7 +103,7 @@ body {
     position: relative; background: var(--color-card);
     border: 1px solid var(--color-border); border-radius: 1rem; overflow: hidden;
     transition: all .3s ease; animation: fadeIn .8s ease-out; animation-fill-mode: both; cursor: pointer;
-    max-width: min(56rem, 100%);      /* keep card readable on wide screens */
+    max-width: min(80rem, 100%);      /* keep card readable on wide screens */
     margin-inline: auto;              /* center the single-column card */
 }
 .doc-card:nth-child(1){animation-delay:.1s} .doc-card:nth-child(2){animation-delay:.2s}
