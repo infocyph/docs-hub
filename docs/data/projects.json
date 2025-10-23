@@ -14,5 +14,13 @@
     "repo": "https://github.com/infocyph/Webrick",
     "docs": "/projects/webrick/",
     "icon": "WR"
+  },
+  {
+    "title": "JsonDispatch",
+    "description": "Lightweight JSON response envelope with clear status (success/fail/error), server tracing (X-Request-Id) and version signaling (X-Api-Version).",
+    "details": "<p><code>JsonDispatch</code> is a production-ready JSON response specification that standardizes API responses for consistency, observability, and easy client integration.</p>\n<ul>\n  <li><strong>Predictable envelope</strong> — Top-level <code>status</code>, <code>message</code>, <code>data</code>, plus optional <code>_properties</code>, <code>_references</code>, <code>_links</code>.</li>\n  <li><strong>Tracing by default</strong> — Server-generated <code>X-Request-Id</code> in every response; optional <code>X-Correlation-Id</code> for workflows.</li>\n  <li><strong>Version clarity</strong> — Use vendor media types for request bodies (e.g., <code>application/vnd.infocyph.jd.v1+json</code>) and expose exact server version via <code>X-Api-Version</code>.</li>\n  <li><strong>Error semantics</strong> — Clear split between <code>fail</code> (client issues, 4xx) and <code>error</code> (server/dependency issues, 5xx) with uniform error objects.</li>\n  <li><strong>Richer payloads</strong> — <code>_properties</code> for schema/pagination/deprecation; <code>_references</code> to resolve IDs to labels; <code>_links</code> for pagination, related resources, and downloads.</li>\n  <li><strong>Operational guidance</strong> — Headers for rate limits, security/CORS recommendations, health/metrics envelopes, and async job patterns.</li>\n</ul>",
+    "repo": "https://github.com/infocyph/JsonDispatch",
+    "docs": "/projects/json-dispatch/",
+    "icon": "JD"
   }
 ]
