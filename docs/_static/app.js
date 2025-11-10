@@ -1,10 +1,10 @@
 (function () {
-  const grid = document.getElementById('docGrid');
+  const grid   = document.getElementById('docGrid');
   const search = document.getElementById('searchInput');
 
   // ---------- Color Generation ----------
   function generateColorPair(text) {
-    const t = ('' + (text || '')).trim().toUpperCase().slice(0, 2) || '?';
+    const t = ("" + (text || "")).trim().toUpperCase().slice(0, 2) || "?";
     const h = [...t].reduce((a, c) => ((a << 5) - a) + c.charCodeAt(0), 0) >>> 0;
     const hueA = h % 360;
     const hueB = (hueA + 40 + (h % 60)) % 360;
@@ -37,25 +37,21 @@
   }
 
   function createStrokeStyle(size = 48, contrastStroke = true) {
-    if (!contrastStroke) {
-      return '';
-    }
+    if (!contrastStroke) return "";
     const strokeWidth = Math.max(1, size * 0.02);
     return `paint-order: stroke; stroke: rgba(0,0,0,.25); stroke-width: ${strokeWidth}px`;
   }
 
   function createBackgroundShape(size, radius, shape) {
-    if (shape === 'circle') {
-      return `<circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="url(#grad)"/>`;
+    if (shape === "circle") {
+      return `<circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="url(#grad)"/>`;
     }
     return `<rect x="0" y="0" width="${size}" height="${size}" rx="${radius}" ry="${radius}" fill="url(#grad)"/>`;
   }
 
   function createGlassEffect(size, radius, shape, bgStyle) {
-    if (bgStyle !== 'glass') {
-      return '';
-    }
-    const r = shape === 'circle' ? size / 2 : radius;
+    if (bgStyle !== "glass") return "";
+    const r = shape === 'circle' ? size/2 : radius;
     return `<rect x="0" y="0" width="${size}" height="${size}" rx="${r}" ry="${r}"
            fill="url(#shine)" opacity="0.40"/>`;
   }
@@ -77,14 +73,14 @@
     const {
       size = 48,
       radius = 10,
-      shape = 'rounded',
-      fontFamily = 'system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Helvetica Neue, Arial, sans-serif',
+      shape = "rounded",
+      fontFamily = "system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Helvetica Neue, Arial, sans-serif",
       fontWeight = 700,
-      bgStyle = 'glass',
+      bgStyle = "glass",
       contrastStroke = true,
     } = opts;
 
-    const displayText = ('' + (text || '')).trim().toUpperCase().slice(0, 2) || '?';
+    const displayText = ("" + (text || "")).trim().toUpperCase().slice(0, 2) || "?";
     const colors = generateColorPair(text);
     const letterStroke = createStrokeStyle(size, contrastStroke);
 
@@ -96,7 +92,7 @@
   ${createTextElement(displayText, size, fontFamily, fontWeight, letterStroke)}
 </svg>`.trim();
 
-    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
   }
 
   // ---------- Badge Rendering ----------
@@ -106,8 +102,8 @@
       const letters = (img.getAttribute('data-initials') || '').trim().toUpperCase().slice(0, 2);
       const uri = initialsBadgeDataURI(letters, {
         size: 48,
-        shape: 'rounded',
-        bgStyle: 'glass',
+        shape: "rounded",
+        bgStyle: "glass"
       });
       img.src = uri;
       img.style.borderRadius = '12px';
@@ -121,54 +117,45 @@
   }
 
   function deriveInitials(title, icon) {
-    if (icon) {
-      return icon.toUpperCase().slice(0, 2);
-    }
+    if (icon) return icon.toUpperCase().slice(0, 2);
     const words = title.trim().split(/\s+/);
     return ((words[0]?.slice(0, 1) || '') + (words[1]?.slice(0, 1) || '')).toUpperCase().slice(0, 2);
   }
 
   // ---------- Search Functionality ----------
-  function extractSearchableContent(card, projects) {
-    // Get data from card attributes
-    const title = (card.getAttribute('data-title') || '').toLowerCase();
-    const desc = (card.getAttribute('data-desc') || '').toLowerCase();
-
-    // Try to get additional data from projects JSON if available
-    const cardId = card.id.replace('card-', '');
-    const cardIndex = parseInt(cardId, 10);
-
-    if (projects && projects[cardIndex]) {
-      const project = projects[cardIndex];
-      return {
-        title,
-        description: desc,
-        details: (project.details || '').toLowerCase().replace(/<[^>]*>/g, ''), // strip HTML
-        repo: (project.repo || '').toLowerCase(),
-        icon: (project.icon || '').toLowerCase(),
-      };
-    }
-
-    return { title, description: desc };
+  function extractSearchableContent(card) {
+    // Extract all data attributes for comprehensive search
+    return {
+      title: (card.getAttribute('data-title') || '').toLowerCase(),
+      description: (card.getAttribute('data-desc') || '').toLowerCase(),
+      details: (card.getAttribute('data-details') || '').toLowerCase(),
+      repo: (card.getAttribute('data-repo') || '').toLowerCase(),
+      docs: (card.getAttribute('data-docs') || '').toLowerCase(),
+      icon: (card.getAttribute('data-icon') || '').toLowerCase(),
+    };
   }
 
   function matchesSearch(searchableContent, query) {
+    // Search across all fields
     return Object.values(searchableContent).some(value =>
-      value.includes(query),
+      value.includes(query)
     );
   }
 
   function setupSearch() {
-    if (!search) {
-      return;
-    }
-
-    const projects = window.INF_PROJECTS;
+    if (!search) return;
 
     search.addEventListener('input', function (e) {
-      const query = (e.target.value || '').toLowerCase();
+      const query = (e.target.value || '').toLowerCase().trim();
+
       getAllCards().forEach(card => {
-        const content = extractSearchableContent(card, projects);
+        if (!query) {
+          // Show all cards if search is empty
+          card.style.display = '';
+          return;
+        }
+
+        const content = extractSearchableContent(card);
         const matches = matchesSearch(content, query);
         card.style.display = matches ? '' : 'none';
       });
@@ -179,14 +166,10 @@
   function setupCardInteraction() {
     grid.addEventListener('click', function (e) {
       const card = e.target.closest('.doc-card');
-      if (!card) {
-        return;
-      }
+      if (!card) return;
 
       // Don't toggle if clicking links or buttons
-      if (e.target.closest('a') || e.target.closest('.doc-card-links')) {
-        return;
-      }
+      if (e.target.closest('a') || e.target.closest('.doc-card-links')) return;
 
       card.classList.toggle('expanded');
     });
@@ -199,10 +182,21 @@
     const escapedTitle = (title || '').replace(/"/g, '&quot;');
     const escapedDesc = (project.description || '').replace(/"/g, '&quot;');
 
+    // Strip HTML tags from details for search
+    const detailsText = (project.details || '').replace(/<[^>]*>/g, '');
+    const escapedDetails = detailsText.replace(/"/g, '&quot;');
+    const escapedRepo = (project.repo || '').replace(/"/g, '&quot;');
+    const escapedDocs = (project.docs || '').replace(/"/g, '&quot;');
+    const escapedIcon = (initials || '').replace(/"/g, '&quot;');
+
     return `
       <div class="doc-card" id="card-${index}"
            data-title="${escapedTitle}"
-           data-desc="${escapedDesc}">
+           data-desc="${escapedDesc}"
+           data-details="${escapedDetails}"
+           data-repo="${escapedRepo}"
+           data-docs="${escapedDocs}"
+           data-icon="${escapedIcon}">
         <div class="doc-card-header">
           <div class="doc-card-icon-wrapper">
             <div class="doc-card-icon">
@@ -229,9 +223,7 @@
   }
 
   function createDocLink(docsUrl) {
-    if (!docsUrl) {
-      return '';
-    }
+    if (!docsUrl) return '';
     return `
           <a href="${docsUrl}" class="btn btn-primary">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
@@ -243,9 +235,7 @@
   }
 
   function createRepoLink(repoUrl) {
-    if (!repoUrl) {
-      return '';
-    }
+    if (!repoUrl) return '';
     return `
           <a href="${repoUrl}" class="btn btn-outline">
             <svg fill="currentColor" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
@@ -257,9 +247,7 @@
 
   // ---------- Progressive Enhancement ----------
   function renderClientSideCards() {
-    if (!Array.isArray(window.INF_PROJECTS)) {
-      return false;
-    }
+    if (!Array.isArray(window.INF_PROJECTS)) return false;
 
     grid.innerHTML = window.INF_PROJECTS
       .map((project, index) => createCardHTML(project, index))
