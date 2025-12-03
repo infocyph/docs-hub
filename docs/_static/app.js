@@ -1,6 +1,11 @@
 (function () {
-  const grid   = document.getElementById('docGrid');
-  const search = document.getElementById('searchInput');
+  const grid       = document.getElementById('docGrid');
+  const search     = document.getElementById('searchInput');
+  const pagination = document.getElementById('paginationControls');
+
+  const PAGE_SIZE = 3; // tweak if you want more/less cards per page
+  let currentPage = 1;
+  let totalPages  = 1;
 
   // ---------- Color Generation ----------
   function generateColorPair(text) {
@@ -15,6 +20,12 @@
   }
 
   // ---------- SVG Generation ----------
+  function createStrokeStyle(size = 48, contrastStroke = true) {
+    if (!contrastStroke) return "";
+    const strokeWidth = Math.max(1, size * 0.02);
+    return `paint-order: stroke; stroke: rgba(0,0,0,.25); stroke-width: ${strokeWidth}px`;
+  }
+
   function createSVGDefs(color1, color2) {
     return `
   <defs>
@@ -36,12 +47,6 @@
   </defs>`;
   }
 
-  function createStrokeStyle(size = 48, contrastStroke = true) {
-    if (!contrastStroke) return "";
-    const strokeWidth = Math.max(1, size * 0.02);
-    return `paint-order: stroke; stroke: rgba(0,0,0,.25); stroke-width: ${strokeWidth}px`;
-  }
-
   function createBackgroundShape(size, radius, shape) {
     if (shape === "circle") {
       return `<circle cx="${size/2}" cy="${size/2}" r="${size/2}" fill="url(#grad)"/>`;
@@ -51,7 +56,7 @@
 
   function createGlassEffect(size, radius, shape, bgStyle) {
     if (bgStyle !== "glass") return "";
-    const r = shape === 'circle' ? size/2 : radius;
+    const r = shape === 'circle' ? size / 2 : radius;
     return `<rect x="0" y="0" width="${size}" height="${size}" rx="${r}" ry="${r}"
            fill="url(#shine)" opacity="0.40"/>`;
   }
@@ -113,6 +118,7 @@
 
   // ---------- Card Management ----------
   function getAllCards() {
+    if (!grid) return [];
     return Array.from(grid.querySelectorAll('.doc-card'));
   }
 
@@ -122,9 +128,8 @@
     return ((words[0]?.slice(0, 1) || '') + (words[1]?.slice(0, 1) || '')).toUpperCase().slice(0, 2);
   }
 
-  // ---------- Search Functionality ----------
+  // ---------- Search helpers ----------
   function extractSearchableContent(card) {
-    // Extract all data attributes for comprehensive search
     return {
       title: (card.getAttribute('data-title') || '').toLowerCase(),
       description: (card.getAttribute('data-desc') || '').toLowerCase(),
@@ -136,25 +141,105 @@
   }
 
   function matchesSearch(searchableContent, query) {
-    // Search across all fields
     return Object.values(searchableContent).some(value =>
       value.includes(query)
     );
   }
 
+  // ---------- Pagination ----------
+  function renderPaginationControls() {
+    if (!pagination) return;
+
+    if (totalPages <= 1) {
+      pagination.innerHTML = '';
+      pagination.style.display = 'none';
+      return;
+    }
+
+    pagination.style.display = '';
+
+    pagination.innerHTML = `
+      <button class="page-btn" data-action="prev" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>
+      <span class="page-info">Page ${currentPage} of ${totalPages}</span>
+      <button class="page-btn" data-action="next" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>
+    `;
+
+    const prevBtn = pagination.querySelector('[data-action="prev"]');
+    const nextBtn = pagination.querySelector('[data-action="next"]');
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          applyPagination();
+          grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          applyPagination();
+          grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    }
+  }
+
+  function applyPagination() {
+    if (!grid) return;
+
+    const cards = getAllCards();
+    if (!cards.length) {
+      if (pagination) {
+        pagination.innerHTML = '';
+        pagination.style.display = 'none';
+      }
+      return;
+    }
+
+    const hasQuery = search && (search.value || '').trim() !== '';
+    if (hasQuery) {
+      // In search mode: show all matches (search handler already filtered)
+      cards.forEach(card => { card.style.display = card.style.display === 'none' ? 'none' : ''; });
+      if (pagination) pagination.style.display = 'none';
+      return;
+    }
+
+    totalPages = Math.max(1, Math.ceil(cards.length / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    cards.forEach((card, index) => {
+      const pageIndex = Math.floor(index / PAGE_SIZE) + 1;
+      card.style.display = (pageIndex === currentPage) ? '' : 'none';
+    });
+
+    renderPaginationControls();
+  }
+
+  // ---------- Search Functionality ----------
   function setupSearch() {
     if (!search) return;
 
     search.addEventListener('input', function (e) {
       const query = (e.target.value || '').toLowerCase().trim();
+      const cards = getAllCards();
 
-      getAllCards().forEach(card => {
-        if (!query) {
-          // Show all cards if search is empty
-          card.style.display = '';
-          return;
-        }
+      if (!query) {
+        // Reset to paginated view
+        currentPage = 1;
+        applyPagination();
+        return;
+      }
 
+      // Disable pagination when searching – show all matches
+      if (pagination) {
+        pagination.style.display = 'none';
+      }
+
+      cards.forEach(card => {
         const content = extractSearchableContent(card);
         const matches = matchesSearch(content, query);
         card.style.display = matches ? '' : 'none';
@@ -164,6 +249,8 @@
 
   // ---------- Card Interaction ----------
   function setupCardInteraction() {
+    if (!grid) return;
+
     grid.addEventListener('click', function (e) {
       const card = e.target.closest('.doc-card');
       if (!card) return;
@@ -247,7 +334,7 @@
 
   // ---------- Progressive Enhancement ----------
   function renderClientSideCards() {
-    if (!Array.isArray(window.INF_PROJECTS)) return false;
+    if (!Array.isArray(window.INF_PROJECTS) || !grid) return false;
 
     grid.innerHTML = window.INF_PROJECTS
       .map((project, index) => createCardHTML(project, index))
@@ -259,16 +346,19 @@
 
   // ---------- Initialization ----------
   function initialize() {
-    setupCardInteraction();
-    setupSearch();
+    if (!grid) return;
 
-    // Progressive enhancement: client-side render if no server-rendered cards
-    if (!getAllCards().length) {
+    const hasServerCards = getAllCards().length > 0;
+
+    if (!hasServerCards) {
       renderClientSideCards();
     } else {
-      // Server-rendered cards: just generate icons
       applyInitialsBadges(document);
     }
+
+    setupCardInteraction();
+    setupSearch();
+    applyPagination();
   }
 
   // Start the app
