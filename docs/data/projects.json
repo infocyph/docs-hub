@@ -30,5 +30,13 @@
     "repo": "https://github.com/infocyph/JsonDispatch",
     "docs": "/projects/json-dispatch/",
     "icon": "JD"
+  },
+  {
+    "title": "Toolset",
+    "description": "Small, focused Bash CLIs for Docker, PHP, Git, SQLite and system cleanup – installable via single curl + chmod.",
+    "details": "<p><code>Toolset</code> is a collection of standalone Bash utilities that streamline day-to-day DevOps and backend work on Linux servers.</p>\n<ul>\n  <li><strong>dockex</strong> — Inspect, benchmark, backup/restore and safely clean Docker resources.</li>\n  <li><strong>phpx</strong> — PHP version / extension manager with FPM &amp; webserver config helpers and doctor checks.</li>\n  <li><strong>gitx</strong> — Opinionated Git workflow helper for branches, cleanup, summaries and changelogs.</li>\n  <li><strong>chromacat</strong> — Colour-aware <code>cat</code> for gradients, animations, boxes and ASCII banners.</li>\n  <li><strong>sqlitex</strong> — Non-interactive, flag-driven SQLite admin with CRUD, migrations, seeds and tuning.</li>\n  <li><strong>cleanx</strong> — Safe, modular disk &amp; inode cleaner with dry-run-by-default, quotas and JSON reports.</li>\n</ul>\n<p>All tools are single files, script-friendly, and tuned for fast feedback loops in CI, containers and bare-metal hosts.</p>",
+    "repo": "https://github.com/infocyph/Toolset",
+    "docs": "/projects/toolset/",
+    "icon": "TS"
   }
 ]
