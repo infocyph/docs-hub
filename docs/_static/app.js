@@ -3,7 +3,7 @@
   const search     = document.getElementById('searchInput');
   const pagination = document.getElementById('paginationControls');
 
-  const PAGE_SIZE = 3; // tweak if you want more/less cards per page
+  const PAGE_SIZE = 3; // visible cards per page
   let currentPage = 1;
   let totalPages  = 1;
 
@@ -202,8 +202,10 @@
 
     const hasQuery = search && (search.value || '').trim() !== '';
     if (hasQuery) {
-      // In search mode: show all matches (search handler already filtered)
-      cards.forEach(card => { card.style.display = card.style.display === 'none' ? 'none' : ''; });
+      // In search mode: pagination off, show all matches (search handler already filtered)
+      cards.forEach(card => {
+        card.style.display = card.style.display === 'none' ? 'none' : '';
+      });
       if (pagination) pagination.style.display = 'none';
       return;
     }
@@ -217,6 +219,45 @@
     });
 
     renderPaginationControls();
+  }
+
+  // ---------- Reveal-on-scroll (staggered) ----------
+  function setupRevealAnimation() {
+    const cards = getAllCards();
+    if (!cards.length) return;
+
+    // Fallback for browsers without IntersectionObserver
+    if (!('IntersectionObserver' in window)) {
+      cards.forEach(card => card.classList.add('revealed'));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      // Take only newly visible & not yet revealed cards
+      const visible = entries
+        .filter(e => e.isIntersecting && !e.target.classList.contains('revealed'));
+
+      if (!visible.length) return;
+
+      // Sort by vertical position so it goes top → bottom
+      visible.sort((a, b) =>
+        a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top
+      );
+
+      // Stagger within this visible batch
+      visible.forEach((entry, idx) => {
+        const card = entry.target;
+        setTimeout(() => {
+          card.classList.add('revealed');
+          observer.unobserve(card); // reveal once
+        }, idx * 120); // 120ms between siblings
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '0px 0px -10% 0px', // trigger a bit before bottom
+    });
+
+    cards.forEach(card => observer.observe(card));
   }
 
   // ---------- Search Functionality ----------
@@ -359,8 +400,8 @@
     setupCardInteraction();
     setupSearch();
     applyPagination();
+    setupRevealAnimation();
   }
 
-  // Start the app
   initialize();
 })();
