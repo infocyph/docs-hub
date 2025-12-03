@@ -3,7 +3,7 @@
   const search     = document.getElementById('searchInput');
   const pagination = document.getElementById('paginationControls');
 
-  const PAGE_SIZE = 3; // visible cards per page
+  const PAGE_SIZE = 5; // visible cards per page
   let currentPage = 1;
   let totalPages  = 1;
 
