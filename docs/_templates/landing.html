@@ -11,6 +11,8 @@
 {% block relbar2 %}{% endblock %}
 
 {% block content %}
+<div class="site-bg" aria-hidden="true"></div>
+
 <!-- Make projects available to JS (progressive enhancement) -->
 <script>window.INF_PROJECTS = {{ projects_json | safe }};</script>
 
