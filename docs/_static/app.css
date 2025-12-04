@@ -23,6 +23,37 @@ body {
   background-color: var(--color-bg);
   color: var(--color-fg);
   line-height: 1.6;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ---------------- Sitewide background (aurora + grid) ---------------- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20vh;
+  z-index: -2;
+  pointer-events: none;
+  background: radial-gradient(circle at 10% 20%, rgba(79, 70, 229, 0.18), transparent 55%),
+  radial-gradient(circle at 80% 30%, rgba(168, 85, 247, 0.16), transparent 55%),
+  radial-gradient(circle at 50% 80%, rgba(56, 189, 248, 0.14), transparent 55%);
+  opacity: 0.9;
+  filter: blur(2px);
+  animation: inf-bg-drift 40s linear infinite alternate;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+  linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+  mix-blend-mode: soft-light;
+  opacity: 0.55;
+  animation: inf-grid-pan 60s linear infinite;
 }
 
 /* Container */
@@ -67,6 +98,25 @@ body {
 @keyframes pulse {
   0%, 100% {opacity: 1}
   50% {opacity: .5}
+}
+
+/* Aurora drift */
+@keyframes inf-bg-drift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-2vw, -1vh, 0) scale(1.03);
+  }
+  100% {
+    transform: translate3d(2vw, 1vh, 0) scale(1.06);
+  }
+}
+
+/* Grid pan */
+@keyframes inf-grid-pan {
+  0% { background-position: 0 0, 0 0; }
+  100% { background-position: 80px 40px, 40px 80px; }
 }
 
 .hero-content { position: relative; z-index: 1; animation: fadeIn .8s ease-out; }
@@ -249,6 +299,16 @@ body > readthedocs-flyout { display: none !important; }
     --color-shadow-glow: rgba(138, 180, 255, 0.2);
   }
 
+  body::before {
+    opacity: 0.7;
+  }
+
+  body::after {
+    opacity: 0.6;
+    background-image: linear-gradient(to right, rgba(148, 163, 184, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.1) 1px, transparent 1px);
+  }
+
   .hero {
     background: linear-gradient(180deg, #0d1426 0%, var(--color-bg) 100%);
   }
@@ -285,6 +345,16 @@ body > readthedocs-flyout { display: none !important; }
   }
 
   .footer { border-top-color: var(--color-border); }
+}
+
+/* Motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after,
+  .hero::before,
+  .hero::after {
+    animation: none !important;
+  }
 }
 
 /* ---------- Optional: make the initials badge responsive even if JS sets width/height attrs ---------- */
