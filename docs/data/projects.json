@@ -116,7 +116,7 @@
     "description": "Docker-based local development environment with selectable service profiles, multi-domain HTTP/TLS routing and a single CLI (lds) for setup, domains, certificates and diagnostics.",
     "details": "<p><code>LocalDevStack</code> is an opinionated, Docker-first local dev environment designed to keep multi-service projects consistent across machines.</p>\n<ul>\n  <li><strong>Selectable modules</strong> — enable only what you need via Compose profiles (MySQL, MariaDB, PostgreSQL, MongoDB, Redis, Elasticsearch, etc.).</li>\n  <li><strong>Multi-domain routing</strong> — one HTTP load balancer for multiple domains with simple vhost management.</li>\n  <li><strong>Local HTTPS</strong> — root CA workflow for trusted local TLS (Linux trust store / Windows user store).</li>\n  <li><strong>One CLI</strong> — <code>lds</code> for setup, profiles, domains, certs, stack lifecycle, and <code>doctor</code> diagnostics.</li>\n</ul>",
     "repo": "https://github.com/infocyph/LocalDevStack",
-    "docs": "/projects/localdevstack/",
+    "docs": "/projects/LocalDevStack/",
     "icon": "LDS"
   },
   {
